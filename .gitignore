@@ -3,6 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
+# Ignore virtual environments
+venv/
+.env/
+.gigloan/
+
+
+# Ignore logs
+*.log
+
 # C extensions
 *.so
 
