@@ -11,7 +11,7 @@ logging.basicConfig(filename='logs/project_setup.log',
 
 
 list_of_files = [
-    "artifacts/.gitignore",
+   # "artifacts/",
     "src/__init__.py",
     "src/components/__init__.py",
     "src/utils/__init__.py",
@@ -31,9 +31,9 @@ list_of_files = [
     "app.py",
     "requirements.txt",
     "setup.py",
-    "notebooks/research.ipynb",
-    "templates/index.html",
-    ".github/workflows/cicd.yaml"
+    "notebooks/research.ipynb"
+    #"templates/",
+    #".github/workflows/cicd.yaml"
 ]
 
 
