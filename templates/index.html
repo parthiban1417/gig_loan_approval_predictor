@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Approval Predictor</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Loan Approval Predictor</h1>
+    <form method="POST" action="/">
+        <label for="age">Age:</label>
+        <input type="number" name="age" step="any" required><br><br>
+
+        <label for="num_platforms">Number of Platforms Used :</label>
+        <input type="number" name="num_platforms" step="any" required><br><br>
+
+        <label for="work_experience">Work Experience (years):</label>
+        <input type="number" name="work_experience" step="any" required><br><br>
+
+        <label for="monthly_income">Monthly Income:</label>
+        <input type="number" name="monthly_income" step="any" required><br><br>
+
+        <label for="seasonal_variation">Seasonal Variatio:</label>
+        <input type="number" name="seasonal_variation" step="any" required><br><br>
+
+        <label for="income_volatility">Income Volatility:</label>
+        <input type="number" name="income_volatility" step="any" required><br><br>
+
+        <label for="savings_balance">Savings Balance:</label>
+        <input type="number" name="savings_balance" step="any" required><br><br>
+
+        <label for="debt_to_income_ratio">Debt to Income Ratio:</label>
+        <input type="number" name="debt_to_income_ratio" step="any" required><br><br>
+
+        <label for="avg_monthly_expenses">Average Monthly Expenses:</label>
+        <input type="number" name="avg_monthly_expenses" step="any" required><br><br>
+
+        <label for="credit_score">Credit Score (-1 if not generated):</label>
+        <input type="number" name="credit_score" step="any" required><br><br>
+
+        <label for="existing_loans">Existing Loans:</label>
+        <input type="number" name="existing_loans" step="any" required><br><br>
+
+        <label for="loan_amount_requested">Loan Amount Requested:</label>
+        <input type="number" name="loan_amount_requested" step="any" required><br><br>
+
+        <label for="transaction_frequency">Transaction Frequency:</label>
+        <input type="number" name="transaction_frequency" step="any" required><br><br>
+
+        <label for="credit_card_utilization">Credit Card Utilization (%):</label>
+        <input type="number" name="credit_card_utilization" step="any" required><br><br>
+
+        <label for="subscription_services">Subscription Services (count):</label>
+        <input type="number" name="subscription_services" step="any" required><br><br>
+
+        <label for="financial_emergencies_last_year">Financial Emergencies Last Year:</label>
+        <input type="number" name="financial_emergencies_last_year" step="any" required><br><br>
+
+        <label for="inflation_rate">Inflation Rate (%):</label>
+        <input type="number" name="inflation_rate" step="any" required><br><br>
+
+        <label for="customer_feedback_score">Customer Feedback Score (%):</label>
+        <input type="number" name="customer_feedback_score" step="any" required><br><br>
+
+        <label for="penalties">Penalties (%):</label>
+        <input type="number" name="penalties" step="any" required><br><br>
+
+        <label for="work_consistency">Work Consistenc (%):</label>
+        <input type="number" name="work_consistency" step="any" required><br><br>
+
+        <label for="avg_platform_tenure">Average Platform Tenure (%):</label>
+        <input type="number" name="avg_platform_tenure" step="any" required><br><br>
+
+        <label for="cost_of_living_index">Cost of Living Index (%):</label>
+        <input type="number" name="cost_of_living_index" step="any" required><br><br>
+
+        <label for="education_level">Education Level:</label>
+        <select name="education_level" required>
+            <option value="High School">High School</option>
+            <option value="Graduate">Graduate</option>
+            <option value="Postgraduate">Postgraduate</option>
+        </select><br><br>
+
+        <label for="reason_for_loan">Reason for Loan:</label>
+        <select name="reason_for_loan" required>
+            <option value="Home Renovation">Home Renovation</option>
+            <option value="Education">Education</option>
+            <option value="Medical Emergency">Medical Emergency</option>
+            <option value="Vehicle Purchase">Vehicle Purchase</option>
+            <option value="Debt Consolidation">Debt Consolidation</option>
+            <option value="Other">Other</option>
+        </select><br><br>
+
+        <label for="alternative_income_source">Alternative Income Source:</label>
+        <select name="alternative_income_source" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br><br>
+
+        <label for="loan_coapplicant">Loan Coapplicant:</label>
+        <select name="loan_coapplicant" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br><br>
+
+        <label for="urban_rural">Urban or Rural:</label>
+        <select name="urban_rural" required>
+            <option value="Urban">Urban</option>
+            <option value="Rural">Rural</option>
+        </select><br><br>
+
+        <label for="family_dependents">Family Dependents:</label>
+        <input type="number" name="family_dependents" step="any" required><br><br>
+
+        <label for="platform_ratings">Platform Ratings (e.g., Uber:3.4; Ola:3.4):</label>
+        <input type="text" name="platform_ratings" step="any" required><br><br>
+
+        <button type="submit">Predict Loan Approval</button>
+    </form>
+</body>
+</html>

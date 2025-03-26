@@ -6,3 +6,6 @@ scipy
 imbalanced-learn
 scikit-learn
 optuna
+PyYAML==6.0
+flask
+joblib

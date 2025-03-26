@@ -1,0 +1,16 @@
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  data_file: artifacts/data_ingestion/data.csv
+
+data_preprocessing:
+  raw_data_file: artifacts/data_ingestion/data.csv
+  train_data_file: artifacts/data/train.csv
+  test_data_file: artifacts/data/test.csv
+
+model_building:
+  model_params:
+    n_estimators: 88
+    max_depth: 11
+    min_samples_split: 9
+    min_samples_leaf: 3
+    max_features: null
