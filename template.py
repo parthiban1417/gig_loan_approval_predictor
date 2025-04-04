@@ -51,3 +51,31 @@ for filepath in list_of_files:
     
     else:
         logging.info(f'File already exists: {filename}')
+
+
+
+    "artifacts/",
+    "src/__init__.py",
+    "src/components/__init__.py",
+    "src/components/data_ingestion.py",
+    "src/components/data_preprocesing.py",
+    "src/components/model_building.py",
+    "src/components/model_evaluation.py",
+    "src/utils/__init__.py",
+    "src/utils/common.py",
+    "src/utils/exception.py",
+    "src/utils/logger.py",
+    "src/config/__init__.py",
+    "src/config/configuration.py",
+    "src/pipeline/__init__.py",
+    "src/entity/__init__.py",
+    "src/entity/config_entity.py",
+    "config/config.yaml",
+    "Dockerfile",
+    "params.yaml",
+    "dvc.yaml",
+    "main.py",
+    "app.py",
+    "requirements.txt",
+    "setup.py",
+    "notebooks/research.ipynb"

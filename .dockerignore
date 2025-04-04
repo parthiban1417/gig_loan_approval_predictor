@@ -1,0 +1,28 @@
+# Ignore version control directories and files
+.git
+.gitignore
+
+# Ignore dependency directories (adjust if necessary)
+node_modules
+
+# Ignore Python cache files (if applicable)
+__pycache__
+*.pyc
+
+# Ignore log files
+*.log
+
+# Ignore environment variable files (if you handle them separately)
+.env
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files and directories
+tmp/
+*.tmp
+
+# Ignore build output directories (if you build separately)
+build/
+dist/

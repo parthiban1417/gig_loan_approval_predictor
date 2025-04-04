@@ -1,16 +1,46 @@
+artifacts_dir: artifacts
+
 data_ingestion:
   root_dir: artifacts/data_ingestion
   data_file: artifacts/data_ingestion/data.csv
 
 data_preprocessing:
+  root_dir: artifacts/model
   raw_data_file: artifacts/data_ingestion/data.csv
   train_data_file: artifacts/data/train.csv
   test_data_file: artifacts/data/test.csv
+  transformer_name: power_transformer.pkl
+
 
 model_building:
+  model_dir: artifacts/model
   model_params:
     n_estimators: 88
     max_depth: 11
     min_samples_split: 9
     min_samples_leaf: 3
     max_features: null
+  model_name: gigloanpredictormodel.pkl
+
+model_evaluation:
+  model_dir: artifacts/model/gigloanpredictormodel.pkl
+  metrics_dir: artifacts/metrics
+  metrics_name: metrics.json
+
+drift_detection:
+  drift_dir: artifacts/drift
+  train_data_file: artifacts/data/train.csv
+  test_data_file: artifacts/data/test.csv
+  drift_name: drift.json
+
+mlflow:
+  metrics_dir: artifacts/metrics/metrics.json
+  model_dir: artifacts/model/gigloanpredictormodel.pkl
+  model_name: 'gigloanpredictormodel'
+  tracking:
+      tracking_uri: "http://127.0.0.1:5000"
+      experiment_name: "GigLoanExperiment"
+
+#aws:
+ # ecr_repo: "<YOUR_ECR_REPO>"
+ # region: "<YOUR_AWS_REGION>"

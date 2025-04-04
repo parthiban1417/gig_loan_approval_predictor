@@ -20,6 +20,5 @@ setup(
         "Bug Tracker": "https://github.com/parthiban1417/gig_loan_approval_predictor/issues",
         },
     package_dir={"": "src"},
-    packages= find_packages(where="src"),
-    install_requires = install_requires
+    packages= find_packages(where="src")
 )

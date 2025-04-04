@@ -1,7 +1,9 @@
 from sklearn.ensemble import RandomForestClassifier
 from src.utils.logger import logger
 from src.utils.exception import CustomException
+import os
 import sys
+import joblib
 
 class ModelBuilding:
     def __init__(self, config):
@@ -21,7 +23,13 @@ class ModelBuilding:
             )
             self.model.fit(X_train, y_train)
             logger.info("Model training complete.")
-            return self.model
+
+            # Save model to artifacts/model
+            model_path = os.path.join(self.config.model_dir, self.config.model_name)
+            os.makedirs(os.path.dirname(model_path), exist_ok=True)
+            joblib.dump(self.model, model_path)
+            logger.info(f"Model saved at {model_path}")
+
         except Exception as e:
             logger.error("Error in model building")
             raise CustomException(e, sys)

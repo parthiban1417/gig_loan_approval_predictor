@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Approval Predictor</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #f7f7f7;
+        }
+        .container {
+            margin-top: 40px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        fieldset {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        legend {
+            width: auto;
+            padding: 0 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .form-group small {
+            display: block;
+            color: #6c757d;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: #0069d9;
+            color: #fff;
+        }
+        .calc-info {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Loan Approval Predictor For Gig Community</h1>
+        <form method="POST" action="/predict">
+            <!-- Section 1: Basic Applicant Information -->
+            <fieldset>
+                <legend>Basic Applicant Information</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="age">Age:</label>
+                        <input type="number" class="form-control" name="age" step="any" required>
+                        <small>Your age in years (e.g., 30).</small>
+                        <div class="calc-info">*Calculated as the applicant's current age.</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="education_level">Education Level:</label>
+                        <select class="form-control" name="education_level" required>
+                            <option value="High School">High School</option>
+                            <option value="Graduate">Graduate</option>
+                            <option value="Postgraduate">Postgraduate</option>
+                        </select>
+                        <small>Select the highest education level completed.</small>
+                        <div class="calc-info">*Used to gauge potential earning capacity.</div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Section 2: Gig Work Details -->
+            <fieldset>
+                <legend>Gig Work Details</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="num_platforms">Number of Platforms Used:</label>
+                        <input type="number" class="form-control" name="num_platforms" step="any" required>
+                        <small>How many gig platforms do you work on?</small>
+                        <div class="calc-info">*(e.g. 1,2,3).</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="work_experience">Work Experience (years):</label>
+                        <input type="number" class="form-control" name="work_experience" step="any" required>
+                        <small>Total years you have worked in gig jobs.</small>
+                        <div class="calc-info">*(e.g. 1,5,15).</div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Section 3: Financial Information -->
+            <fieldset>
+                <legend>Financial Information</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="monthly_income">Monthly Income:</label>
+                        <input type="number" class="form-control" name="monthly_income" step="any" required>
+                        <small>Your average monthly income in INR.</small>
+                        <div class="calc-info">*(e.g. 25000).</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="seasonal_variation">Seasonal Variation:</label>
+                        <input type="number" class="form-control" name="seasonal_variation" step="any" required>
+                        <small>Income fluctuation factor due to seasonal effects.</small>
+                        <div class="calc-info">*values range between 0.8 and 1.5.</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="income_volatility">Income Volatility:</label>
+                        <input type="number" class="form-control" name="income_volatility" step="any" required>
+                        <small>Variability in your monthly income.</small>
+                        <div class="calc-info">*Typically calculated as a percentage of your income (e.g., 5% to 30%).</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="savings_balance">Savings Balance:</label>
+                        <input type="number" class="form-control" name="savings_balance" step="any" required>
+                        <small>Current savings amount in INR.</small>
+                        <div class="calc-info">*(e.g., 10000).</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="debt_to_income_ratio">Debt to Income Ratio:</label>
+                        <input type="number" class="form-control" name="debt_to_income_ratio" step="any" required>
+                        <small>Ratio of your monthly debt payments to your income.</small>
+                        <div class="calc-info">*Calculated by comparing debt obligations to income levels (usually between 0.1 and 0.6).</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="credit_score">Credit Score (-1 if not generated):</label>
+                        <input type="number" class="form-control" name="credit_score" step="any" required>
+                        <small>Your credit score, typically between 300 and 900.</small>
+                        <div class="calc-info">*Calculated using income, debt-to-income ratio, and other financial parameters.</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="existing_loans">Existing Loans:</label>
+                        <input type="number" class="form-control" name="existing_loans" step="any" required>
+                        <small>Number of active loans you currently have.</small>
+                        <div class="calc-info">*(e.g. 1,2,5).</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="loan_amount_requested">Loan Amount Requested:</label>
+                        <input type="number" class="form-control" name="loan_amount_requested" step="any" required>
+                        <small>The amount you wish to borrow in INR.</small>
+                        <div class="calc-info">*For microfinance, 70% of requests are below ₹50k; others can be higher.</div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Section 4: Behavioral and Economic Factors -->
+            <fieldset>
+                <legend>Behavioral and Economic Factors</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="transaction_frequency">Transaction Frequency:</label>
+                        <input type="number" class="form-control" name="transaction_frequency" step="any" required>
+                        <small>Number of financial transactions you perform per month.</small>
+                        <div class="calc-info">*Typically an integer value (e.g., between 10 and 100).</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="avg_monthly_expenses">Average Monthly Expenses:</label>
+                        <input type="number" class="form-control" name="avg_monthly_expenses" step="any" required>
+                        <small>Your average monthly expenditure in INR.</small>
+                        <div class="calc-info">*(e.g., 5000).</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="credit_card_utilization">Credit Card Utilization (%):</label>
+                        <input type="number" class="form-control" name="credit_card_utilization" step="any" required>
+                        <small>Percentage of your available credit used.</small>
+                        <div class="calc-info">*Reflects your usage; generally between 10% and 90%.</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="subscription_services">Subscription Services (count):</label>
+                        <input type="number" class="form-control" name="subscription_services" step="any" required>
+                        <small>How many subscription services you are subscribed to.</small>
+                        <div class="calc-info">*Count of services; (e.g., 2).</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="financial_emergencies_last_year">Financial Emergencies Last Year:</label>
+                        <input type="number" class="form-control" name="financial_emergencies_last_year" step="any" required>
+                        <small>Number of financial emergencies experienced in the past year.</small>
+                        <div class="calc-info">*Typically between 0 and 5 incidents.</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inflation_rate">Inflation Rate (%):</label>
+                        <input type="number" class="form-control" name="inflation_rate" step="any" required>
+                        <small>Current inflation rate as a percentage.</small>
+                        <div class="calc-info">* between 3% and 7.8%.</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="customer_feedback_score">Customer Feedback Score (%):</label>
+                        <input type="number" class="form-control" name="customer_feedback_score" step="any" required>
+                        <small>Your average customer feedback score.</small>
+                        <div class="calc-info">*Derived from platform ratings; generally scaled to 0-100%.</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="penalties">Penalties (%):</label>
+                        <input type="number" class="form-control" name="penalties" step="any" required>
+                        <small>Any financial penalties incurred.</small>
+                        <div class="calc-info">*(eg., 1).</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="work_consistency">Work Consistency :</label>
+                        <input type="number" class="form-control" name="work_consistency" step="any" required>
+                        <small>Indicator of consistent work performance on a scale of 1 to 7.</small>
+                        <div class="calc-info">*.</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="avg_platform_tenure">Average Platform Tenure (%):</label>
+                        <input type="number" class="form-control" name="avg_platform_tenure" step="any" required>
+                        <small>Average duration (in months) you have been active on gig platforms.</small>
+                        <div class="calc-info">*Calculated as the mean tenure across platforms you use (eg., 39).</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cost_of_living_index">Cost of Living Index (%):</label>
+                    <input type="number" class="form-control" name="cost_of_living_index" step="any" required>
+                    <small>Your region’s cost of living relative to a base value.</small>
+                    <div class="calc-info">*Based on state-specific multipliers (e.g., Maharashtra: 1.15, Bihar: 0.85).</div>
+                </div>
+            </fieldset>
+
+            <!-- Section 5: Additional Details -->
+            <fieldset>
+                <legend>Additional Details</legend>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="reason_for_loan">Reason for Loan:</label>
+                        <select class="form-control" name="reason_for_loan" required>
+                            <option value="Home Renovation">Home Renovation</option>
+                            <option value="Education">Education</option>
+                            <option value="Medical Emergency">Medical Emergency</option>
+                            <option value="Vehicle Purchase">Vehicle Purchase</option>
+                            <option value="Debt Consolidation">Debt Consolidation</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <small>Primary purpose for the loan.</small>
+                        <div class="calc-info">*E.g., if renovating your home, select Home Renovation.</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="alternative_income_source">Alternative Income Source:</label>
+                        <select class="form-control" name="alternative_income_source" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <small>Indicates if you have another income source.</small>
+                        <div class="calc-info">*For instance, part-time work or freelancing outside gig platforms.</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="loan_coapplicant">Loan Coapplicant:</label>
+                        <select class="form-control" name="loan_coapplicant" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <small>Specify if there is a co-applicant.</small>
+                        <div class="calc-info">*A co-applicant can improve your loan approval chances.</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="urban_rural">Urban or Rural:</label>
+                        <select class="form-control" name="urban_rural" required>
+                            <option value="Urban">Urban</option>
+                            <option value="Rural">Rural</option>
+                        </select>
+                        <small>Select your residential area type.</small>
+                        <div class="calc-info">*Based on your local demographics and cost of living.</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="family_dependents">Family Dependents:</label>
+                        <input type="number" class="form-control" name="family_dependents" step="any" required>
+                        <small>Number of dependents in your family.</small>
+                        <div class="calc-info">*Typically, a value between 0 to 5.</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="platform_ratings">Platform Ratings:</label>
+                        <input type="text" class="form-control" name="platform_ratings" required>
+                        <small>Ratings for each gig platform (e.g., Uber:3.4; Ola:3.4).</small>
+                        <div class="calc-info">*Average ratings can be computed from customer reviews.</div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="btn btn-custom btn-block">Predict Loan Approval</button>
+        </form>
+    </div>
+    
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

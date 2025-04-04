@@ -23,6 +23,8 @@ class DataPreprocessing:
     def split_data(self, df: pd.DataFrame):
         try:
             logger.info("Splitting data into train and test sets...")
+            logger.info("Data Preprocessing config type: %s", type(self.config))
+            logger.info("Data Preprocessing config value: %s", self.config)
             train, test = train_test_split(df, test_size=0.2, stratify=df['loan_approved'], random_state=42)
             os.makedirs(os.path.dirname(self.config.train_data_file), exist_ok=True)
             os.makedirs(os.path.dirname(self.config.test_data_file), exist_ok=True)
@@ -136,7 +138,7 @@ class DataPreprocessing:
         # Fit PowerTransformer on 'credit_score'
         pt = PowerTransformer(method='yeo-johnson')
         X['credit_score'] = pt.fit_transform(X[['credit_score']])
-        transformer_path = os.path.join('artifacts', 'power_transformer.pkl')
+        transformer_path = os.path.join(self.config.root_dir, self.config.transformer_name)
         os.makedirs(os.path.dirname(transformer_path), exist_ok=True)
         joblib.dump(pt, transformer_path)
         logger.info("Saved PowerTransformer")
@@ -167,6 +169,7 @@ class DataPreprocessing:
         :return: Tuple (X_train, y_train, X_test, y_test)
         """
         logger.info("Running complete preprocessing pipeline...")
+        df = pd.read_csv(df)
         train_df, test_df = self.split_data(df)
         X_train, y_train, pt = self.preprocess_train(train_df, apply_smote)
         X_test, y_test = self.preprocess_test(test_df, pt)
@@ -220,7 +223,7 @@ class DataPreprocessing:
                             if col in df.columns:
                                 df[col] = np.log1p(df[col])
                         
-                        transformer_path = os.path.join('artifacts', 'power_transformer.pkl')
+                        transformer_path = os.path.join(self.config.root_dir, self.config.transformer_name)
                         if os.path.exists(transformer_path):
                             pt = joblib.load(transformer_path)
                             logger.info("Loaded PowerTransformer")

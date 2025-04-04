@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Prediction Result</title>
 </head>
 <body>
     <h1>Prediction Result</h1>
     <p>{{ result }}</p>
-    <a href="{{ url_for('index') }}">Back to Home</a>
+    <!-- Button to view the drift report -->
+    <a href="{{ url_for('drift') }}">
+        <button>View Drift Report</button>
+    </a>
 </body>
 </html>
+

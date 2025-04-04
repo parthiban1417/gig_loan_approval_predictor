@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drift Detection Report</title>
+</head>
+<body>
+    <h1>Drift Detection Report</h1>
+    {% if drift_report.error %}
+        <p>Error: {{ drift_report.error }}</p>
+    {% else %}
+        <pre>{{ drift_report | tojson(indent=4) }}</pre>
+    {% endif %}
+    <a href="{{ url_for('predict') }}">Back to Home</a>
+</body>
+</html>
