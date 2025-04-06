@@ -32,7 +32,6 @@ class DriftDetection:
     def update_drift_metrics(self, registry, drift_gauge, drift_gauges: dict):
         """
         Update Prometheus drift gauges using values from drift_report.
-        This version processes the "metrics" list from the drift report.
         """
         drift_report_path = os.path.join(self.config.drift_dir, self.config.drift_name)
         if os.path.exists(drift_report_path):
@@ -50,7 +49,7 @@ class DriftDetection:
                     drift_gauge.labels(metric="overall").set(overall_score)
                 # For the detailed drift table
                 elif metric_name == "DataDriftTable":
-                    # Update top-level details if needed (e.g., share_of_drifted_columns)
+                    # Update top-level details 
                     share = result.get("share_of_drifted_columns")
                     if share is not None:
                         if "share_of_drifted_columns" not in drift_gauges:
@@ -72,9 +71,8 @@ class DriftDetection:
                                 registry=registry
                             )
                         drift_gauges[gauge_name].set(details.get("drift_score", 0))
-                        # You could also add more gauges for other details like threshold if desired.
+                        
         else:
-            # Fallback: if there's no "metrics" list, update any flat keys (optional)
             for metric, value in drift_report.items():
                 if isinstance(value, dict):
                     for sub_metric, sub_value in value.items():

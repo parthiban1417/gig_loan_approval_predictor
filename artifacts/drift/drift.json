@@ -1741,7 +1741,7 @@
                         "column_type": "cat",
                         "stattest_name": "Jensen-Shannon distance",
                         "stattest_threshold": 0.1,
-                        "drift_score": 0.2655932184419946,
+                        "drift_score": 0.2655932184419947,
                         "drift_detected": true,
                         "current": {
                             "small_distribution": {
@@ -3657,7 +3657,7 @@
                         "column_type": "cat",
                         "stattest_name": "Jensen-Shannon distance",
                         "stattest_threshold": 0.1,
-                        "drift_score": 0.050171383788732635,
+                        "drift_score": 0.05017138378873192,
                         "drift_detected": false,
                         "current": {
                             "small_distribution": {
@@ -12409,7 +12409,7 @@
                         "column_type": "cat",
                         "stattest_name": "Jensen-Shannon distance",
                         "stattest_threshold": 0.1,
-                        "drift_score": 0.03611436325731674,
+                        "drift_score": 0.03611436325731669,
                         "drift_detected": false,
                         "current": {
                             "small_distribution": {

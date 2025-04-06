@@ -5,26 +5,18 @@ from src.utils.logger import logger
 from src.pipeline.drift_detection import DriftDetectionPipeline
 from src.pipeline.drift_metrics import DriftMetricsUpdater
 from src.pipeline.prediction import PredictionPipeline
+from src.config.configuration import ConfigurationManager
 import os
-import joblib
+import mlflow.pyfunc
 import psutil
 from prometheus_client import Gauge, generate_latest, CONTENT_TYPE_LATEST, CollectorRegistry
 
 app = Flask(__name__)
 
-
-# Load model at startup
-MODEL_PATH = os.path.join("artifacts", "model", "gigloanpredictormodel.pkl")
-try:
-    model = joblib.load(MODEL_PATH)
-    logger.info("Model loaded successfully for serving.")
-except Exception as e:
-    logger.error("Error loading model:", e)
-
 # Set up Prometheus registry and gauges
 registry = CollectorRegistry()
 drift_gauge = Gauge('evidently_data_drift_score', 'Data drift score from Evidently AI', ['metric'], registry=registry)
-# Drift metrics: update these dynamically based on drift report.
+# Drift metrics gets updated dynamically based on drift report.
 # For each drift metric (e.g., overall, or per-feature), a Gauge is created.
 drift_gauges = {}
 # System usage metrics
@@ -37,7 +29,18 @@ def home():
 
 @app.route('/train',methods=['GET', 'POST'])  # route to train the pipeline
 def training():
+    global model
     os.system("python main.py")
+    try:
+        config_manager = ConfigurationManager()
+        mlflow_config = config_manager.get_mlflow_config()
+        # Set the MLflow tracking URI
+        mlflow.set_tracking_uri(mlflow_config.tracking['tracking_uri'])
+        # Load the model from the registry by specifying the model name
+        model = mlflow.pyfunc.load_model(f"models:/{mlflow_config.model_name}/1")
+        logger.info("Model loaded successfully from MLflow.")
+    except Exception as e:
+        logger.error("Error loading model:", e)
     logger.info("Training completed. Redirecting to prediction page.")
     return redirect(url_for('predict'))
 
@@ -47,7 +50,6 @@ def predict():
     Handles prediction requests.
     """
     if request.method == "POST":
-        # Assume the input form has fields for each feature
         try:
             # Retrieve input values from the form
             input_data = {
@@ -123,7 +125,7 @@ def metrics():
         mem_usage = psutil.virtual_memory().percent
         cpu_usage_gauge.set(cpu_usage)
         memory_usage_gauge.set(mem_usage)
-        # Update drift metrics from a saved report file if it exists
+        # Update drift metrics from a saved report file 
         metrics_updater = DriftMetricsUpdater()
         metrics_updater.main(registry, drift_gauge, drift_gauges)
     except Exception as e:
