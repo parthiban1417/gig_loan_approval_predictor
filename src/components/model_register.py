@@ -5,6 +5,7 @@ import mlflow
 import mlflow.sklearn
 from src.utils.logger import logger
 from src.utils.exception import CustomException
+import dagshub
 import joblib 
 
 class ModelRegister:
@@ -13,7 +14,15 @@ class ModelRegister:
 
     def register(self):
         try:
-            mlflow.set_tracking_uri(self.config.tracking['tracking_uri'])
+            # Check if we should initialize MLflow via DagsHub
+            if self.config.tracking.get("use_dagshub", False):
+                dagshub.init(
+                    repo_owner=self.config.tracking["dagshub_repo_owner"],
+                    repo_name=self.config.tracking["dagshub_repo_name"],
+                    mlflow=True
+                )
+            else:
+                mlflow.set_tracking_uri(self.config.tracking["tracking_uri"])
             experiment_name = self.config.tracking.get("experiment_name", "Default")
             mlflow.set_experiment(experiment_name)
             with mlflow.start_run():

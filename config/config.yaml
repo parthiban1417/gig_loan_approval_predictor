@@ -38,6 +38,9 @@ mlflow:
   model_dir: artifacts/model/gigloanpredictormodel.pkl
   model_name: 'gigloanpredictormodel'
   tracking:
+      use_dagshub: true
+      dagshub_repo_owner: parthiban
+      dagshub_repo_name: gig_loan_approval_predictor
       tracking_uri: "http://127.0.0.1:5000"
       experiment_name: "GigLoanExperiment"
 
