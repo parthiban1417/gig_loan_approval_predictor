@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   myapp:
-    image: gigloan_image:latest
+    image: "${ECR_REGISTRY}/${ECR_REPOSITORY_NAME}:latest"
     container_name: myapp
     ports:
       - "1417:1417"  
