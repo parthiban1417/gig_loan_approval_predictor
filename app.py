@@ -30,33 +30,39 @@ def home():
 
 @app.route('/train',methods=['GET', 'POST'])  # route to train the pipeline
 def training():
-    global model
     os.system("python main.py")
-    try:
-        config_manager = ConfigurationManager()
-        mlflow_config = config_manager.get_mlflow_config()
-        # Check if we should initialize MLflow via DagsHub
-        if mlflow_config.tracking.get("use_dagshub", False):
-                dagshub.init(
-                    repo_owner=mlflow_config.tracking["dagshub_repo_owner"],
-                    repo_name=mlflow_config.tracking["dagshub_repo_name"],
-                    mlflow=True
-                )
-        else:
-            mlflow.set_tracking_uri(mlflow_config.tracking["tracking_uri"])
-        # Load the model from the registry by specifying the model name
-        model = mlflow.pyfunc.load_model(f"models:/{mlflow_config.model_name}/1")
-        logger.info("Model loaded successfully from MLflow.")
-    except Exception as e:
-        logger.error("Error loading model:", e)
     logger.info("Training completed. Redirecting to prediction page.")
     return redirect(url_for('predict'))
+
+model = None
 
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
     """
     Handles prediction requests.
     """
+    global model  # Use the global model variable
+
+    if model is None:
+        try:
+            config_manager = ConfigurationManager()
+            mlflow_config = config_manager.get_mlflow_config()
+            # Check if we should initialize MLflow via DagsHub
+            if mlflow_config.tracking.get("use_dagshub", False):
+                    dagshub.init(
+                        repo_owner=mlflow_config.tracking["dagshub_repo_owner"],
+                        repo_name=mlflow_config.tracking["dagshub_repo_name"],
+                        mlflow=True
+                    )
+            else:
+                mlflow.set_tracking_uri(mlflow_config.tracking["tracking_uri"])
+            # Load the model from the registry by specifying the model name
+            model = mlflow.pyfunc.load_model(f"models:/{mlflow_config.model_name}/1")
+            logger.info("Model loaded successfully from MLflow.")
+        except Exception as e:
+            logger.error(f"Error loading model: {str(e)}")
+            return render_template("result.html", result="Model loading failed.")
+
     if request.method == "POST":
         try:
             # Retrieve input values from the form
@@ -100,7 +106,7 @@ def predict():
             logger.info(f"Processed input data: {processed_input}")
             prediction = model.predict(processed_input)
             logger.info(f"Predicted output: {prediction[0]}")
-            result = "Approved" if prediction[0] == 1 else "Rejected"
+            result = "Loan is Approved" if prediction[0] == 1 else "Loan is Rejected"
             return render_template("result.html", result=result)
         except Exception as e:
             logger.error(f"Error during prediction: {str(e)}")
