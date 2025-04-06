@@ -15,5 +15,4 @@ psutil==5.9.0
 dvc
 mlflow
 ensure==1.0.2
-dagshub
 -e .

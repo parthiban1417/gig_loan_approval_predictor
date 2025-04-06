@@ -7,7 +7,6 @@ from src.pipeline.drift_metrics import DriftMetricsUpdater
 from src.pipeline.prediction import PredictionPipeline
 from src.config.configuration import ConfigurationManager
 import os
-import dagshub
 import mlflow.pyfunc
 import psutil
 from prometheus_client import Gauge, generate_latest, CONTENT_TYPE_LATEST, CollectorRegistry
@@ -47,15 +46,7 @@ def predict():
         try:
             config_manager = ConfigurationManager()
             mlflow_config = config_manager.get_mlflow_config()
-            # Check if we should initialize MLflow via DagsHub
-            if mlflow_config.tracking.get("use_dagshub", False):
-                    dagshub.init(
-                        repo_owner=mlflow_config.tracking["dagshub_repo_owner"],
-                        repo_name=mlflow_config.tracking["dagshub_repo_name"],
-                        mlflow=True
-                    )
-            else:
-                mlflow.set_tracking_uri(mlflow_config.tracking["tracking_uri"])
+            mlflow.set_tracking_uri(mlflow_config.tracking["tracking_uri"])
             # Load the model from the registry by specifying the model name
             model = mlflow.pyfunc.load_model(f"models:/{mlflow_config.model_name}/1")
             logger.info("Model loaded successfully from MLflow.")

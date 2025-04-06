@@ -32,7 +32,7 @@ class MlflowConfig:
     metrics_dir: Path
     model_dir: Path
     model_name: str
-    tracking: Dict[str, str]
+    tracking: Dict[str, Any]
 
 @dataclass(frozen=True)
 class DriftDetectionConfig:

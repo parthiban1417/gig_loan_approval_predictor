@@ -25,5 +25,10 @@ docker build -t gigloan_image .
 docker-compose down
 docker-compose up -d
 
+python3 -m venv mlflow-env
+source mlflow-env/bin/activate
+pip install --upgrade pip
+pip install mlflow
+nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
+tail -f mlflow.log
 
-ECR URI - 396913730552.dkr.ecr.ap-south-1.amazonaws.com/gigloanrepo
