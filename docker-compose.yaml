@@ -5,7 +5,7 @@ services:
     image: "${ECR_REGISTRY}/${ECR_REPOSITORY_NAME}:latest"
     container_name: myapp
     ports:
-      - "1417:1417"  
+      - "1417:1417" 
     networks:
       - monitoring
 
