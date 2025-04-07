@@ -38,5 +38,5 @@ mlflow:
   model_dir: artifacts/model/gigloanpredictormodel.pkl
   model_name: 'gigloanpredictormodel'
   tracking:
-      tracking_uri: "http://13.233.255.74:5000"
+      tracking_uri: "http://3.108.217.121:5000"
       experiment_name: "GigLoanExperiment"

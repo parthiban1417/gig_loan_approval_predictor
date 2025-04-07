@@ -25,6 +25,11 @@ docker build -t gigloan_image .
 docker-compose down
 docker-compose up -d
 
+### EC2 machine 
+sudo apt-get update -y
+sudo apt-get upgrade
+
+sudo apt install python3.12-venv
 python3 -m venv mlflow-env
 source mlflow-env/bin/activate
 pip install --upgrade pip
@@ -32,3 +37,11 @@ pip install mlflow
 nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow.log 2>&1 &
 tail -f mlflow.log
 
+
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker ubuntu
+newgrp docker
+
+docker pull prom/prometheus
+docker pull grafana/grafana
